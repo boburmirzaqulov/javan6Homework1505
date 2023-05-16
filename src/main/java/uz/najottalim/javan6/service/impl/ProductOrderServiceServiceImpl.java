@@ -17,6 +17,10 @@ public class ProductOrderServiceServiceImpl implements ProductOrderService {
 
     @Override
     public List<ProductOrder> getProductOrderByStatus(String statusName) {
-        return jdbcTemplate.query("select * from product_order where status = ?", new ProductOrderRowMapper(), statusName.toUpperCase());
+        return jdbcTemplate.query(
+                "select * from product_order where status = ?",
+                new ProductOrderRowMapper(),
+                statusName.toUpperCase()
+        );
     }
 }
