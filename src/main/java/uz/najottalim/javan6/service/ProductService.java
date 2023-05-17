@@ -11,4 +11,6 @@ public interface ProductService {
     List<Product> getProductsByOrderDate( Date orderDate);
     Double getSumOfALlOrderPrice();
     Double getAvgPriceByOrderDate(Date orderDate);
+
+    List<Product> getAllProductsByColumnName(Integer limit, Integer offset, String columnName);
 }

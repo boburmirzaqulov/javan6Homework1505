@@ -3,12 +3,15 @@ package uz.najottalim.javan6.service.impl;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 import uz.najottalim.javan6.dao.Product;
 import uz.najottalim.javan6.mapper.ProductRowMapper;
 import uz.najottalim.javan6.service.ProductService;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -60,4 +63,23 @@ public class ProductServiceImpl implements ProductService {
         return result;
     }
 
+    @Override
+    public List<Product> getAllProductsByColumnName(Integer limit, Integer offset, String columnName) {
+        List<Product> products = new ArrayList<>();
+        jdbcTemplate.query(
+                "select * from product order by ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY",
+                rs -> {
+                    products.add(
+                            new Product(
+                                    rs.getInt("id"),
+                                    rs.getString("category"),
+                                    rs.getDouble("price"),
+                                    rs.getString("name")
+                            )
+                    );
+                },
+                columnName, offset, limit
+        );
+        return products;
+    }
 }

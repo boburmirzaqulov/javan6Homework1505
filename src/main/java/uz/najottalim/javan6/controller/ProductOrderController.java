@@ -20,4 +20,9 @@ public class ProductOrderController {
     public List<ProductOrder> getProductOrderByStatus(@PathVariable String statusName){
         return productOrderService.getProductOrderByStatus(statusName);
     }
+
+    @GetMapping("/orders/day/{n}")
+    public List<ProductOrder> getOrdersLastNDay(@PathVariable Integer n){
+        return productOrderService.getOrdersLastNDay(n);
+    }
 }
